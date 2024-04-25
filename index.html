@@ -5,23 +5,58 @@
     <meta charset="utf-8" />
   </head>
   <body>
+    <div class="info">
+      <ul class="panel top left">
+        <li class="item" id="savings"></li>
+        <li class="item" id="days"></li>
+      </ul>
+      <ul class="panel bottom center">
+        <li class="item" id="warning"></li>
+      </ul>
+    </div>
     <div class="scenes">
       <div class="scene active">
         <div class="content">
-          <h2>Welcome!</h2>
+          <h2>Welcome to Desert!</h2>
         </div>
         <div class="buttons">
-          <button class="option bottom center" onclick="goToNextScene(this);">Start</button>
+          <button class="option bottom center" onclick="gc.goToNextScene(this);">Start</button>
         </div>
       </div>
       <div class="scene" id="home">
         <div class="content">
+          <h2>What should I do today?</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom left" onclick="gc.goToSceneWithId(this, 'postWork', 'work');">Work</button>
+          <button class="option bottom right" onclick="gc.goToSceneWithId(this, 'travel');">Travel</button>
+        </div>
+      </div>
+      <div class="scene" id="postWork">
+        <div class="content">
+          <h2>What a day of work!</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom center" onclick="gc.goToSceneWithId(this, 'home', 'sleep');">Sleep</button>
+        </div>
+      </div>
+      <div class="scene" id="postTravel">
+        <div class="content">
+          <h2>What a day of travel!</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom center" onclick="gc.goToSceneWithId(this, 'home', 'sleep');">Sleep</button>
+        </div>
+      </div>
+      <div class="scene" id="travel">
+        <div class="content">
           <h2>Where should I go?</h2>
         </div>
         <div class="buttons">
-          <button class="option bottom left" onclick="goToSceneWithId(this, 'west');">← West</button>
-          <button class="option bottom right" onclick="goToSceneWithId(this, 'east');">East →</button>
-          <button class="option top center secret" onclick="goToSceneWithId(this, 'north');">↑<br />North</button>
+          <button class="option bottom left" onclick="gc.goToSceneWithId(this, 'west', 'travel');">← West</button>
+          <button class="option bottom center" onclick="gc.goToSceneWithId(this, 'home');">Back</button>
+          <button class="option bottom right" onclick="gc.goToSceneWithId(this, 'east', 'travel');">East →</button>
+          <button class="option top center secret" onclick="gc.goToSceneWithId(this, 'north', 'travel');">↑<br />North</button>
         </div>
       </div>
       <div class="scene" id="west">
@@ -29,8 +64,8 @@
           <h2>West Part 1</h2>
         </div>
         <div class="buttons">
-          <button class="option bottom left" onclick="goToNextScene(this);">← Continue</button>
-          <button class="option bottom right" onclick="goToSceneWithId(this, 'home');">Prev →</button>
+          <button class="option bottom left" onclick="gc.goToNextScene(this);">← Continue</button>
+          <button class="option bottom right" onclick="gc.goToSceneWithId(this, 'postTravel');">↪ Go Home</button>
         </div>
       </div>
       <div class="scene">
@@ -38,8 +73,8 @@
           <h2>West Part 2</h2>
         </div>
         <div class="buttons">
-          <button class="option bottom left" onclick="goToNextScene(this);">← Continue</button>
-          <button class="option bottom right" onclick="goToPrevScene(this);">Prev →</button>
+          <button class="option bottom left" onclick="gc.goToNextScene(this);">← Continue</button>
+          <button class="option bottom right" onclick="gc.goToSceneWithId(this, 'postTravel');">↪ Go Home</button>
         </div>
       </div>
       <div class="scene">
@@ -47,8 +82,7 @@
           <h2>West Part 3</h2>
         </div>
         <div class="buttons">
-          <button class="option bottom left" onclick="goToSceneWithId(this, 'home');">↪ Go Home</button>
-          <button class="option bottom right" onclick="goToPrevScene(this);">Prev →</button>
+          <button class="option bottom right" onclick="gc.goToSceneWithId(this, 'postTravel');">↪ Go Home</button>
         </div>
       </div>
       <div class="scene" id="east">
@@ -56,8 +90,8 @@
           <h2>East Part 1</h2>
         </div>
         <div class="buttons">
-          <button class="option bottom left" onclick="goToSceneWithId(this, 'home');">← Prev</button>
-          <button class="option bottom right" onclick="goToNextScene(this);">Continue →</button>
+          <button class="option bottom left" onclick="gc.goToSceneWithId(this, 'postTravel');">Go Home ↩</button>
+          <button class="option bottom right" onclick="gc.goToNextScene(this);">Continue →</button>
         </div>
       </div>
       <div class="scene">
@@ -65,8 +99,8 @@
           <h2>East Part 2</h2>
         </div>
         <div class="buttons">
-          <button class="option bottom left" onclick="goToPrevScene(this);">← Prev</button>
-          <button class="option bottom right" onclick="goToNextScene(this);">Continue →</button>
+          <button class="option bottom left" onclick="gc.goToSceneWithId(this, 'postTravel');">Go Home ↩</button>
+          <button class="option bottom right" onclick="gc.goToNextScene(this);">Continue →</button>
         </div>
       </div>
       <div class="scene">
@@ -74,8 +108,7 @@
           <h2>East Part 3</h2>
         </div>
         <div class="buttons">
-          <button class="option bottom left" onclick="goToPrevScene(this);">← Prev</button>
-          <button class="option bottom right" onclick="goToSceneWithId(this, 'home');">Go Home ↩</button>
+          <button class="option bottom left" onclick="gc.goToSceneWithId(this, 'postTravel');">Go Home ↩</button>
         </div>
       </div>
       <div class="scene" id="north">
@@ -83,8 +116,8 @@
           <h2>North Part 1</h2>
         </div>
         <div class="buttons">
-          <button class="option top center secret" onclick="goToNextScene(this);">↑<br />Continue</button>
-          <button class="option bottom center" onclick="goToSceneWithId(this, 'home');">Prev<br />↓</button>
+          <button class="option top center secret" onclick="gc.goToNextScene(this);">↑<br />Continue</button>
+          <button class="option bottom center" onclick="gc.goToSceneWithId(this, 'postTravel');">↷<br />Go Home</button>
         </div>
       </div>
       <div class="scene">
@@ -92,8 +125,8 @@
           <h2>North Part 2</h2>
         </div>
         <div class="buttons">
-          <button class="option top center secret" onclick="goToNextScene(this);">↑<br />Continue</button>
-          <button class="option bottom center" onclick="goToPrevScene(this);">Prev<br />↓</button>
+          <button class="option top center secret" onclick="gc.goToNextScene(this);">↑<br />Continue</button>
+          <button class="option bottom center" onclick="gc.goToSceneWithId(this, 'postTravel');">↷<br />Go Home</button>
         </div>
       </div>
       <div class="scene">
@@ -101,8 +134,7 @@
           <h2>North Part 3</h2>
         </div>
         <div class="buttons">
-          <button class="option top center" onclick="goToSceneWithId(this, 'home');">↷<br />Go Home</button>
-          <button class="option bottom center" onclick="goToPrevScene(this);">Prev<br />↓</button>
+          <button class="option bottom center" onclick="gc.goToSceneWithId(this, 'postTravel');">↷<br />Go Home</button>
         </div>
       </div>
     </div>
