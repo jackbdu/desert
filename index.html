@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div class="scenes">
+      <div class="scene active">
+        <div class="content">
+          <h2>Welcome!</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom center" onclick="goToNextScene(this);">Start</button>
+        </div>
+      </div>
+      <div class="scene" id="home">
+        <div class="content">
+          <h2>Where should I go?</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom left" onclick="goToSceneWithId(this, 'west');">← West</button>
+          <button class="option bottom right" onclick="goToSceneWithId(this, 'east');">East →</button>
+          <button class="option top center secret" onclick="goToSceneWithId(this, 'north');">↑<br />North</button>
+        </div>
+      </div>
+      <div class="scene" id="west">
+        <div class="content">
+          <h2>West Part 1</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom left" onclick="goToNextScene(this);">← Continue</button>
+          <button class="option bottom right" onclick="goToSceneWithId(this, 'home');">Prev →</button>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="content">
+          <h2>West Part 2</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom left" onclick="goToNextScene(this);">← Continue</button>
+          <button class="option bottom right" onclick="goToPrevScene(this);">Prev →</button>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="content">
+          <h2>West Part 3</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom left" onclick="goToSceneWithId(this, 'home');">↪ Go Home</button>
+          <button class="option bottom right" onclick="goToPrevScene(this);">Prev →</button>
+        </div>
+      </div>
+      <div class="scene" id="east">
+        <div class="content">
+          <h2>East Part 1</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom left" onclick="goToSceneWithId(this, 'home');">← Prev</button>
+          <button class="option bottom right" onclick="goToNextScene(this);">Continue →</button>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="content">
+          <h2>East Part 2</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom left" onclick="goToPrevScene(this);">← Prev</button>
+          <button class="option bottom right" onclick="goToNextScene(this);">Continue →</button>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="content">
+          <h2>East Part 3</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom left" onclick="goToPrevScene(this);">← Prev</button>
+          <button class="option bottom right" onclick="goToSceneWithId(this, 'home');">Go Home ↩</button>
+        </div>
+      </div>
+      <div class="scene" id="north">
+        <div class="content">
+          <h2>North Part 1</h2>
+        </div>
+        <div class="buttons">
+          <button class="option top center secret" onclick="goToNextScene(this);">↑<br />Continue</button>
+          <button class="option bottom center" onclick="goToSceneWithId(this, 'home');">Prev<br />↓</button>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="content">
+          <h2>North Part 2</h2>
+        </div>
+        <div class="buttons">
+          <button class="option top center secret" onclick="goToNextScene(this);">↑<br />Continue</button>
+          <button class="option bottom center" onclick="goToPrevScene(this);">Prev<br />↓</button>
+        </div>
+      </div>
+      <div class="scene">
+        <div class="content">
+          <h2>North Part 3</h2>
+        </div>
+        <div class="buttons">
+          <button class="option top center" onclick="goToSceneWithId(this, 'home');">↷<br />Go Home</button>
+          <button class="option bottom center" onclick="goToPrevScene(this);">Prev<br />↓</button>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

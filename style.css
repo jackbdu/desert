@@ -1,0 +1,94 @@
+html,
+body {
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  font-size: 1vmin;
+  color: #000;
+  width: 100%;
+  height: 100%;
+  font-family: Courier, monospace;
+}
+div.scenes,
+div.scene {
+  width: 100%;
+  height: 100%;
+}
+div.scene {
+  visibility: hidden;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size: 5rem;
+  justify-content: center;
+}
+div.scene.active {
+  visibility: visible;
+  z-index: 1;
+}
+div.scene div.content,
+div.scene div.buttons {
+  opacity: 0;
+}
+div.scene.active div.content,
+div.scene.active div.buttons {
+  opacity: 1;
+  transition: opacity 1s ease-in;
+}
+div.scene.active div.buttons {
+  transition:
+    visibility 0.5s 1s ease-in,
+    opacity 0.5s 1s ease-in;
+  z-index: 2;
+}
+div.buttons button.option {
+  font-family: Courier, monospace;
+  border: none;
+  background: none;
+  position: absolute;
+  font-size: 5rem;
+  color: #888;
+  width: 45vw;
+  height: 45vh;
+  transition:
+    color 0.5s ease,
+    text-shadow 0.5s ease;
+}
+div.buttons button.option.secret {
+  color: #00000000;
+  transition-duration: 2s;
+}
+div.buttons button.option:hover {
+  cursor: pointer;
+  color: #000;
+  text-shadow: 0 0 1rem #000;
+}
+div.buttons button.center {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto auto;
+}
+div.buttons button.top {
+  bottom: auto;
+  top: 0;
+}
+div.buttons button.bottom {
+  top: auto;
+  bottom: 0;
+}
+div.buttons button.left {
+  right: auto;
+  left: 0;
+}
+div.buttons button.right {
+  left: auto;
+  right: 0;
+}
