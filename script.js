@@ -1,6 +1,6 @@
 const config = {
-  initialDays: 1000,
-  initialSavings: 100,
+  initialDays: 0,
+  initialSavings: 0,
   dailyWage: 100,
   currencyUnit: "dollars",
   travelExpenses: 1000,

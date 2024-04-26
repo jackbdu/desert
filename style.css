@@ -75,16 +75,18 @@ div.buttons button.option {
   height: 40vh;
   transition:
     color 0.2s ease,
-    text-shadow 0.2s ease;
+    text-shadow 0.2s ease,
+    opacity 2s ease;
 }
 div.buttons button.option.secret {
-  color: #00000000;
-  transition-duration: 1s;
+  opacity: 0;
+  transition-duration: 2s;
 }
 div.buttons button.option:hover {
   cursor: pointer;
   color: #000;
   text-shadow: 0 0 1rem #000;
+  opacity: 1;
 }
 div.buttons button.center,
 div.info ul.center {
