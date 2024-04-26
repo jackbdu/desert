@@ -3,12 +3,13 @@ const config = {
   initialSavings: 0,
   dailyWage: 100,
   currencyUnit: "dollars",
+  dayUnit: "days",
   travelExpenses: 1000,
 };
 
 class GameController {
   constructor(options) {
-    this.dayUnit = "days";
+    this.dayUnit = options?.dayUnit ?? "days";
     this.currencyUnit = options?.currencyUnit ?? "coins";
     this.days = options?.initialDays ?? 0;
     this.savings = options?.initialSavings ?? 0;
