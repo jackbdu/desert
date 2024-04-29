@@ -1,10 +1,10 @@
 const config = {
   initialDays: 0,
-  initialSavings: 11000,
-  dailyWage: 100,
+  initialSavings: 0,
+  dailyWage: 110,
   currencyUnit: "dollars",
   dayUnit: "days",
-  travelExpenses: 1000,
+  travelExpenses: 900,
 };
 
 class GameController {
