@@ -28,8 +28,6 @@ class GameController {
     const startingScene = this.hasPlayed ? document.querySelector(".scene#welcomeBack") : document.querySelector(".scene#welcome");
     this.startWithScene(startingScene);
 
-    this.init();
-    this.updateHtml();
     this.updateDarkMode(this.darkModeEnabled);
   }
   init() {
@@ -38,13 +36,14 @@ class GameController {
     this.hasReachedWestDestination = false;
     this.hasReachedEastDestination = false;
     this.hasReachedNorthDestination = false;
+    document.body.classList.add("playing");
   }
   resume() {
+    this.init();
     const loadedSavings = parseInt(localStorage.getItem("savings"));
     const loadedDays = parseInt(localStorage.getItem("days"));
-    console.log(loadedSavings, loadedDays);
-    this.days = loadedDays > 0 ? loadedDays : this.initialDays;
-    this.savings = loadedSavings > 0 ? loadedSavings : this.initialSavings;
+    if (loadedDays > 0) this.days = loadedDays;
+    if (loadedSavings > 0) this.savings = loadedSavings;
     this.hasReachedWestDestination = localStorage.getItem("hasReachedWestDestination") === "true";
     this.hasReachedEastDestination = localStorage.getItem("hasReachedEastDestination") === "true";
     this.hasReachedNorthDestination = localStorage.getItem("hasReachedNorthDestination") === "true";

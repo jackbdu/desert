@@ -59,33 +59,42 @@ body {
     background var(--transition-delay-fast) var(--transition-timing-function-appear),
     color var(--transition-delay-fast) var(--transition-timing-function-appear);
 }
-div.info {
+div.ui ul.panel.info {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity var(--transition-duration-medium) var(--transition-timing-function-appear);
+}
+body.playing div.ui ul.panel.info {
+  visibility: visible;
+  opacity: 1;
+}
+div.ui {
   font-size: 3rem;
   line-height: 2em;
 }
-div.info ul.panel {
+div.ui ul.panel {
   position: fixed;
   padding: 2em;
   margin: 0;
   z-index: var(--z-index-clickable);
 }
-div.info li.item {
+div.ui li.item {
   list-style: none;
 }
-div.info li.item#warning {
+div.ui li.item#warning {
   color: var(--color-warning);
 }
-div.info li.item a,
-body.dark div.info li.item a,
-div.info li.item span.dark,
-body.dark div.info li.item span.light {
+div.ui li.item a,
+body.dark div.ui li.item a,
+div.ui li.item span.dark,
+body.dark div.ui li.item span.light {
   color: var(--color-toggle-off);
   transition:
     color var(--transition-duration-fast) var(--transition-timing-function-interact),
     text-shadow var(--transition-duration-fast) var(--transition-timing-function-interact);
 }
-div.info li.item span.light,
-body.dark div.info li.item span.dark {
+div.ui li.item span.light,
+body.dark div.ui li.item span.dark {
   color: var(--color-toggle-on);
   transition:
     color var(--transition-duration-fast) var(--transition-timing-function-interact),
@@ -154,17 +163,17 @@ div.buttons button.option.secret {
   transition-duration: var(--transition-duration-slow);
 }
 div.buttons button.option:hover,
-div.info li.item a:hover,
-body.dark div.info li.item a:hover,
-div.info li.item a:hover span.light,
-div.info li.item a:hover span.dark {
+div.ui li.item a:hover,
+body.dark div.ui li.item a:hover,
+div.ui li.item a:hover span.light,
+div.ui li.item a:hover span.dark {
   cursor: pointer;
   color: var(--color-button-highlighted);
   text-shadow: 0 0 1rem var(--color-button-highlighted);
   opacity: 1;
 }
 div.buttons button.center,
-div.info ul.center {
+div.ui ul.center {
   left: 0;
   right: 0;
   top: 0;
@@ -173,22 +182,22 @@ div.info ul.center {
   text-align: center;
 }
 div.buttons button.top,
-div.info ul.top {
+div.ui ul.top {
   bottom: auto;
   top: 0;
 }
 div.buttons button.bottom,
-div.info ul.bottom {
+div.ui ul.bottom {
   top: auto;
   bottom: 0;
 }
 div.buttons button.left,
-div.info ul.left {
+div.ui ul.left {
   right: auto;
   left: 0;
 }
 div.buttons button.right,
-div.info ul.right {
+div.ui ul.right {
   left: auto;
   right: 0;
 }
