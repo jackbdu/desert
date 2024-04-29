@@ -15,17 +15,26 @@
       </ul>
       <ul class="panel top right">
         <li class="item">
-          <a onclick="gc.toggleColor();"><span class="light">Light</span>/<span class="dark">Dark</span></a>
+          <a onclick="gc.toggleDarkMode();"><span class="light">Light</span>/<span class="dark">Dark</span></a>
         </li>
       </ul>
     </div>
     <div class="scenes">
-      <div class="scene active">
-        <div class="content" id="welcome">
+      <div class="scene" id="welcome">
+        <div class="content">
           <h2>Welcome to Desert!</h2>
         </div>
         <div class="buttons">
-          <button class="option bottom center" onclick="gc.goToNextScene(this);">Start</button>
+          <button class="option bottom center" onclick="gc.goToSceneWithId(this, 'home');">Start</button>
+        </div>
+      </div>
+      <div class="scene" id="welcomeBack">
+        <div class="content">
+          <h2>Welcome back to Desert!</h2>
+        </div>
+        <div class="buttons">
+          <button class="option bottom left" onclick="gc.goToSceneWithId(this, 'home', 'resume');">Resume</button>
+          <button class="option bottom right" onclick="gc.goToSceneWithId(this, 'home', 'restart');">Restart</button>
         </div>
       </div>
       <div class="scene" id="home">

@@ -11,8 +11,8 @@ class GameController {
   constructor(options) {
     this.dayUnit = options?.dayUnit ?? "days";
     this.currencyUnit = options?.currencyUnit ?? "coins";
-    this.days = options?.initialDays ?? 0;
-    this.savings = options?.initialSavings ?? 0;
+    this.initialDays = options?.initialDays ?? 0;
+    this.initialSavings = options?.initialSavings ?? 0;
     this.dailyWage = options?.dailyWage ?? 100;
     this.travelExpenses = options?.travelExpenses ?? 1000;
     this.daysElement = document.querySelector("#days");
@@ -20,11 +20,49 @@ class GameController {
     this.warningElement = document.querySelector("#warning");
     this.secretButtonElement = document.querySelector("button.secret");
     this.warningText = "";
-    this.hasReachedNorthDestination = false;
+
+    const systemDarkEnabled = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    this.darkModeEnabled = systemDarkEnabled && localStorage.getItem("isDarkMode") !== "false";
+
+    this.hasPlayed = localStorage.getItem("hasPlayed") === "true";
+    const startingScene = this.hasPlayed ? document.querySelector(".scene#welcomeBack") : document.querySelector(".scene#welcome");
+    this.startWithScene(startingScene);
+
+    this.init();
+    this.updateHtml();
+    this.updateDarkMode(this.darkModeEnabled);
+  }
+  init() {
+    this.days = this.initialDays;
+    this.savings = this.initialSavings;
     this.hasReachedWestDestination = false;
     this.hasReachedEastDestination = false;
+    this.hasReachedNorthDestination = false;
+  }
+  resume() {
+    const loadedSavings = parseInt(localStorage.getItem("savings"));
+    const loadedDays = parseInt(localStorage.getItem("days"));
+    console.log(loadedSavings, loadedDays);
+    this.days = loadedDays > 0 ? loadedDays : this.initialDays;
+    this.savings = loadedSavings > 0 ? loadedSavings : this.initialSavings;
+    this.hasReachedWestDestination = localStorage.getItem("hasReachedWestDestination") === "true";
+    this.hasReachedEastDestination = localStorage.getItem("hasReachedEastDestination") === "true";
+    this.hasReachedNorthDestination = localStorage.getItem("hasReachedNorthDestination") === "true";
     this.updateHtml();
-    this.initColor();
+  }
+  restart() {
+    this.init();
+    this.updateLocalStorage();
+    localStorage.setItem("hasPlayed", false);
+    this.secretButtonElement.classList.add("hidden");
+    this.updateHtml();
+  }
+  updateLocalStorage() {
+    localStorage.setItem("days", this.days);
+    localStorage.setItem("savings", this.savings);
+    localStorage.setItem("hasReachedWestDestination", this.hasReachedWestDestination);
+    localStorage.setItem("hasReachedEastDestination", this.hasReachedEastDestination);
+    localStorage.setItem("hasReachedNorthDestination", this.hasReachedNorthDestination);
   }
   work() {
     this.savings += this.dailyWage;
@@ -32,6 +70,8 @@ class GameController {
   }
   sleep() {
     this.days++;
+    this.updateLocalStorage();
+    localStorage.setItem("hasPlayed", true);
     this.updateHtml();
   }
   travel(dest) {
@@ -73,6 +113,12 @@ class GameController {
           }
         }
         break;
+      case "restart":
+        this.restart();
+        break;
+      case "resume":
+        this.resume();
+        break;
     }
     this.switchActiveScene(currentScene, destScene);
     return true;
@@ -99,6 +145,10 @@ class GameController {
     return true;
   }
 
+  startWithScene(scene) {
+    scene.classList.add("active");
+  }
+
   switchActiveScene(currentScene, destScene) {
     switch (destScene.id) {
       case "westDestination":
@@ -116,15 +166,17 @@ class GameController {
     currentScene.classList.remove("active");
     destScene.classList.add("active");
   }
-  initColor() {
-    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  updateDarkMode(darkModeEnabled) {
+    if (darkModeEnabled) {
       document.body.classList.add("dark");
     } else {
       document.body.classList.remove("dark");
     }
   }
-  toggleColor() {
-    document.body.classList.toggle("dark");
+  toggleDarkMode() {
+    this.darkModeEnabled = !this.darkModeEnabled;
+    this.updateDarkMode(this.darkModeEnabled);
+    localStorage.setItem("isDarkMode", this.darkModeEnabled);
   }
 }
 
