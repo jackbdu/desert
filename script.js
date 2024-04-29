@@ -1,6 +1,6 @@
 const config = {
   initialDays: 0,
-  initialSavings: 0,
+  initialSavings: 11000,
   dailyWage: 100,
   currencyUnit: "dollars",
   dayUnit: "days",
@@ -15,7 +15,14 @@ class GameController {
     this.savings = options?.initialSavings ?? 0;
     this.dailyWage = options?.dailyWage ?? 100;
     this.travelExpenses = options?.travelExpenses ?? 1000;
+    this.daysElement = document.querySelector("#days");
+    this.savingsElement = document.querySelector("#savings");
+    this.warningElement = document.querySelector("#warning");
+    this.secretButtonElement = document.querySelector("button.secret");
     this.warningText = "";
+    this.hasReachedNorthDestination = false;
+    this.hasReachedWestDestination = false;
+    this.hasReachedEastDestination = false;
     this.updateHtml();
     this.initColor();
   }
@@ -28,7 +35,7 @@ class GameController {
     this.updateHtml();
   }
   travel(dest) {
-    if (dest === "west" || dest === "east") {
+    if (dest === "westJourney" || dest === "eastJourney") {
       if (this.savings - this.travelExpenses >= 0) {
         this.savings -= this.travelExpenses;
         this.updateHtml();
@@ -39,9 +46,12 @@ class GameController {
     return true;
   }
   updateHtml() {
-    document.querySelector("#days").textContent = `${this.days} ${this.dayUnit}`;
-    document.querySelector("#savings").textContent = `${this.savings} ${this.currencyUnit}`;
-    document.querySelector("#warning").textContent = `${this.warningText}`;
+    this.daysElement.textContent = `${this.days} ${this.dayUnit}`;
+    this.savingsElement.textContent = `${this.savings} ${this.currencyUnit}`;
+    this.warningElement.textContent = `${this.warningText}`;
+    if (this.hasReachedWestDestination && this.hasReachedEastDestination) {
+      this.secretButtonElement.classList.remove("hidden");
+    }
   }
 
   goToSceneWithId(element, id, action) {
@@ -55,7 +65,7 @@ class GameController {
         this.work();
         break;
       case "travel":
-        if (id === "west" || id === "east") {
+        if (id === "westJourney" || id === "eastJourney") {
           if (!this.travel(id)) {
             this.warningText = "Insufficient funds :(";
             this.updateHtml();
@@ -90,6 +100,17 @@ class GameController {
   }
 
   switchActiveScene(currentScene, destScene) {
+    switch (destScene.id) {
+      case "westDestination":
+        this.hasReachedWestDestination = true;
+        break;
+      case "eastDestination":
+        this.hasReachedEastDestination = true;
+        break;
+      case "northDestination":
+        this.hasReachedNorthDestination = true;
+        break;
+    }
     this.warningText = "";
     this.updateHtml();
     currentScene.classList.remove("active");

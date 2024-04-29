@@ -146,6 +146,9 @@ div.buttons button.option {
     text-shadow var(--transition-duration-fast) var(--transition-timing-function-interact),
     opacity var(--transition-duration-slow) var(--transition-timing-function-interact);
 }
+div.buttons button.option.hidden {
+  display: none;
+}
 div.buttons button.option.secret {
   opacity: 0;
   transition-duration: var(--transition-duration-slow);
