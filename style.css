@@ -10,6 +10,10 @@
   --color-button-dark: #888;
   --color-button-highlighted-light: #000;
   --color-button-highlighted-dark: #fff;
+  --color-toggle-on-light: #000;
+  --color-toggle-on-dark: #fff;
+  --color-toggle-off-light: #bbb;
+  --color-toggle-off-dark: #555;
   --font-family: Courier, monospace;
   --z-index-content-active: 0;
   --z-index-content-inactive: -1;
@@ -27,6 +31,8 @@ body {
   --color-warning: var(--color-warning-light);
   --color-button: var(--color-button-light);
   --color-button-highlighted: var(--color-button-highlighted-light);
+  --color-toggle-on: var(--color-toggle-on-light);
+  --color-toggle-off: var(--color-toggle-off-light);
 }
 body.dark {
   --color-background: var(--color-background-dark);
@@ -34,6 +40,8 @@ body.dark {
   --color-warning: var(--color-warning-dark);
   --color-button: var(--color-button-dark);
   --color-button-highlighted: var(--color-button-highlighted-dark);
+  --color-toggle-on: var(--color-toggle-on-dark);
+  --color-toggle-off: var(--color-toggle-off-dark);
 }
 html,
 body {
@@ -63,6 +71,22 @@ div.info li.item {
 }
 div.info li.item#warning {
   color: var(--color-warning);
+}
+div.info li.item a,
+body.dark div.info li.item a,
+div.info li.item span.dark,
+body.dark div.info li.item span.light {
+  color: var(--color-toggle-off);
+  transition:
+    color var(--transition-duration-fast) var(--transition-timing-function-interact),
+    text-shadow var(--transition-duration-fast) var(--transition-timing-function-interact);
+}
+div.info li.item span.light,
+body.dark div.info li.item span.dark {
+  color: var(--color-toggle-on);
+  transition:
+    color var(--transition-duration-fast) var(--transition-timing-function-interact),
+    text-shadow var(--transition-duration-fast) var(--transition-timing-function-interact);
 }
 div.scenes,
 div.scene {
@@ -112,20 +136,22 @@ div.buttons button.option {
   width: 30vw;
   height: 40vh;
 }
-div.buttons button.option,
-div.info li.item a {
+div.buttons button.option {
   color: var(--color-button);
   transition:
-    color var(--transition-duration-fast) var(transition-timing-function-interact),
-    text-shadow var(--transition-duration-fast) var(transition-timing-function-interact),
-    opacity var(--transition-duration-slow) var(transition-timing-function-interact);
+    color var(--transition-duration-fast) var(--transition-timing-function-interact),
+    text-shadow var(--transition-duration-fast) var(--transition-timing-function-interact),
+    opacity var(--transition-duration-slow) var(--transition-timing-function-interact);
 }
 div.buttons button.option.secret {
   opacity: 0;
   transition-duration: var(--transition-duration-slow);
 }
 div.buttons button.option:hover,
-div.info li.item a:hover {
+div.info li.item a:hover,
+body.dark div.info li.item a:hover,
+div.info li.item a:hover span.light,
+div.info li.item a:hover span.dark {
   cursor: pointer;
   color: var(--color-button-highlighted);
   text-shadow: 0 0 1rem var(--color-button-highlighted);
