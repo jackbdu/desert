@@ -55,6 +55,9 @@ body {
   text-transform: uppercase;
   background-color: var(--color-background);
   color: var(--color-regular);
+  transition:
+    background var(--transition-delay-fast) var(--transition-timing-function-appear),
+    color var(--transition-delay-fast) var(--transition-timing-function-appear);
 }
 div.info {
   font-size: 3rem;
