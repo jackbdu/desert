@@ -1,14 +1,52 @@
+:root {
+  font-size: 1vmin;
+  --color-background-light: #fff;
+  --color-background-dark: #000;
+  --color-regular-light: #000;
+  --color-regular-dark: #fff;
+  --color-warning-light: #f00;
+  --color-warning-dark: #f00;
+  --color-button-light: #888;
+  --color-button-dark: #888;
+  --color-button-highlighted-light: #000;
+  --color-button-highlighted-dark: #fff;
+  --font-family: Courier, monospace;
+  --z-index-content-active: 0;
+  --z-index-content-inactive: -1;
+  --z-index-clickable: 1;
+  --transition-duration-fast: 0.2s;
+  --transition-duration-medium: 0.5s;
+  --transition-duration-slow: 2s;
+  --transition-timing-function-appear: ease-in;
+  --transition-timing-function-interact: ease;
+  --transition-delay-fast: 0.2s;
+}
+body {
+  --color-background: var(--color-background-light);
+  --color-regular: var(--color-regular-light);
+  --color-warning: var(--color-warning-light);
+  --color-button: var(--color-button-light);
+  --color-button-highlighted: var(--color-button-highlighted-light);
+}
+body.dark {
+  --color-background: var(--color-background-dark);
+  --color-regular: var(--color-regular-dark);
+  --color-warning: var(--color-warning-dark);
+  --color-button: var(--color-button-dark);
+  --color-button-highlighted: var(--color-button-highlighted-dark);
+}
 html,
 body {
-  background: #fff;
   margin: 0;
   padding: 0;
-  font-size: 1vmin;
-  color: #000;
   width: 100%;
   height: 100%;
-  font-family: Courier, monospace;
+}
+body {
+  font-family: var(--font-family);
   text-transform: uppercase;
+  background-color: var(--color-background);
+  color: var(--color-regular);
 }
 div.info {
   font-size: 3rem;
@@ -18,12 +56,13 @@ div.info ul.panel {
   position: fixed;
   padding: 2em;
   margin: 0;
+  z-index: var(--z-index-clickable);
 }
 div.info li.item {
   list-style: none;
 }
 div.info li.item#warning {
-  color: red;
+  color: var(--color-warning);
 }
 div.scenes,
 div.scene {
@@ -32,7 +71,7 @@ div.scene {
 }
 div.scene {
   visibility: hidden;
-  z-index: -1;
+  z-index: var(--z-index-content-inactive);
   position: absolute;
   top: 0;
   bottom: 0;
@@ -46,7 +85,7 @@ div.scene {
 }
 div.scene.active {
   visibility: visible;
-  z-index: 1;
+  z-index: var(--z-index-content-active);
 }
 div.scene div.content,
 div.scene div.buttons {
@@ -55,37 +94,41 @@ div.scene div.buttons {
 div.scene.active div.content,
 div.scene.active div.buttons {
   opacity: 1;
-  transition: opacity 0.5s ease-in;
+  transition: opacity var(--transition-duration-medium) var(--transition-timing-function-appear);
 }
 div.scene.active div.buttons {
   transition:
-    visibility 0.2s 0.5s ease-in,
-    opacity 0.2s 0.5s ease-in;
-  z-index: 2;
+    visibility var(--transition-delay-fast) var(--transition-duration-medium) var(--transition-timing-function-appear),
+    opacity var(--transition-delay-fast) var(--transition-duration-medium) var(--transition-timing-function-appear);
+  z-index: var(--z-index-clickable);
 }
 div.buttons button.option {
   text-transform: uppercase;
-  font-family: Courier, monospace;
+  font-family: var(--font-family);
   border: none;
   background: none;
   position: absolute;
   font-size: 4rem;
-  color: #888;
   width: 30vw;
   height: 40vh;
+}
+div.buttons button.option,
+div.info li.item a {
+  color: var(--color-button);
   transition:
-    color 0.2s ease,
-    text-shadow 0.2s ease,
-    opacity 2s ease;
+    color var(--transition-duration-fast) var(transition-timing-function-interact),
+    text-shadow var(--transition-duration-fast) var(transition-timing-function-interact),
+    opacity var(--transition-duration-slow) var(transition-timing-function-interact);
 }
 div.buttons button.option.secret {
   opacity: 0;
-  transition-duration: 2s;
+  transition-duration: var(--transition-duration-slow);
 }
-div.buttons button.option:hover {
+div.buttons button.option:hover,
+div.info li.item a:hover {
   cursor: pointer;
-  color: #000;
-  text-shadow: 0 0 1rem #000;
+  color: var(--color-button-highlighted);
+  text-shadow: 0 0 1rem var(--color-button-highlighted);
   opacity: 1;
 }
 div.buttons button.center,

@@ -17,6 +17,7 @@ class GameController {
     this.travelExpenses = options?.travelExpenses ?? 1000;
     this.warningText = "";
     this.updateHtml();
+    this.initColor();
   }
   work() {
     this.savings += this.dailyWage;
@@ -93,6 +94,16 @@ class GameController {
     this.updateHtml();
     currentScene.classList.remove("active");
     destScene.classList.add("active");
+  }
+  initColor() {
+    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }
+  toggleColor() {
+    document.body.classList.toggle("dark");
   }
 }
 
