@@ -2,7 +2,8 @@ const config = {
   initialDays: 0,
   initialSavings: 0,
   digitNumber: 6,
-  dailyWage: 110,
+  dailyWageMin: 100,
+  dailyWageMax: 200,
   currencyUnit: "dollars",
   dayUnit: "days",
   travelExpenses: 900,
@@ -16,7 +17,8 @@ class GameController {
     this.initialDays = options?.initialDays ?? 0;
     this.initialSavings = options?.initialSavings ?? 0;
     this.digitNumber = options?.digitNumber ?? 6;
-    this.dailyWage = options?.dailyWage ?? 100;
+    this.dailyWageMin = options?.dailyWageMin ?? 100;
+    this.dailyWageMax = options?.dailyWageMax ?? 200;
     this.travelExpenses = options?.travelExpenses ?? 1000;
     this.infoTextInsufficientFund = options?.infoTextInsufficientFund ?? "Insufficient funds";
     this.daysElement = document.querySelector("#days");
@@ -68,8 +70,11 @@ class GameController {
     localStorage.setItem("hasReachedNorthDestination", this.hasReachedNorthDestination);
   }
   work() {
-    this.savings += this.dailyWage;
-    this.infoText = `${this.dailyWage} ${this.currencyUnit} earned`;
+    const bonusMax = this.dailyWageMax - this.dailyWageMin;
+    const bonus = Math.floor(Math.random() * bonusMax);
+    const wage = this.dailyWageMin + bonus;
+    this.savings += wage;
+    this.infoText = `${wage} ${this.currencyUnit} earned`;
     this.updateHtml();
   }
   sleep() {
