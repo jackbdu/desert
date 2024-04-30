@@ -1,10 +1,12 @@
 const config = {
   initialDays: 0,
   initialSavings: 0,
+  digitNumber: 6,
   dailyWage: 110,
   currencyUnit: "dollars",
   dayUnit: "days",
   travelExpenses: 900,
+  infoTextInsufficientFund: "Insufficient funds :(",
 };
 
 class GameController {
@@ -13,13 +15,15 @@ class GameController {
     this.currencyUnit = options?.currencyUnit ?? "coins";
     this.initialDays = options?.initialDays ?? 0;
     this.initialSavings = options?.initialSavings ?? 0;
+    this.digitNumber = options?.digitNumber ?? 6;
     this.dailyWage = options?.dailyWage ?? 100;
     this.travelExpenses = options?.travelExpenses ?? 1000;
+    this.infoTextInsufficientFund = options?.infoTextInsufficientFund ?? "Insufficient funds";
     this.daysElement = document.querySelector("#days");
     this.savingsElement = document.querySelector("#savings");
-    this.warningElement = document.querySelector("#warning");
+    this.infoElement = document.querySelector("#info");
     this.secretButtonElement = document.querySelector("button.secret");
-    this.warningText = "";
+    this.infoText = "";
 
     const systemDarkEnabled = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
     this.darkModeEnabled = systemDarkEnabled && localStorage.getItem("isDarkMode") !== "false";
@@ -65,6 +69,7 @@ class GameController {
   }
   work() {
     this.savings += this.dailyWage;
+    this.infoText = `${this.dailyWage} ${this.currencyUnit} earned`;
     this.updateHtml();
   }
   sleep() {
@@ -77,23 +82,26 @@ class GameController {
     if (dest === "westJourney" || dest === "eastJourney") {
       if (this.savings - this.travelExpenses >= 0) {
         this.savings -= this.travelExpenses;
-        this.updateHtml();
+        this.infoText = `${this.travelExpenses} ${this.currencyUnit} spent`;
         return true;
       }
+      this.infoText = this.infoTextInsufficientFund;
+      this.updateHtml();
       return false;
     }
     return true;
   }
   updateHtml() {
-    this.daysElement.textContent = `${this.days} ${this.dayUnit}`;
-    this.savingsElement.textContent = `${this.savings} ${this.currencyUnit}`;
-    this.warningElement.textContent = `${this.warningText}`;
+    this.daysElement.textContent = `${this.days.toString().padStart(this.digitNumber, "0")} ${this.dayUnit}`;
+    this.savingsElement.textContent = `${this.savings.toString().padStart(this.digitNumber, "0")} ${this.currencyUnit}`;
+    this.infoElement.textContent = `${this.infoText}`;
     if (this.hasReachedWestDestination && this.hasReachedEastDestination) {
       this.secretButtonElement.classList.remove("hidden");
     }
   }
 
   goToSceneWithId(element, id, action) {
+    this.infoText = "";
     const currentScene = element.closest(".scene");
     const destScene = document.querySelector(`#${id}`);
     switch (action) {
@@ -105,11 +113,7 @@ class GameController {
         break;
       case "travel":
         if (id === "westJourney" || id === "eastJourney") {
-          if (!this.travel(id)) {
-            this.warningText = "Insufficient funds :(";
-            this.updateHtml();
-            return false;
-          }
+          if (!this.travel(id)) return false;
         }
         break;
       case "restart":
@@ -124,6 +128,7 @@ class GameController {
   }
 
   goToNthScene(element, n) {
+    this.infoText = "";
     const currentScene = element.closest(".scene");
     const destScene = document.querySelectorAll(".scene")[n];
     this.switchActiveScene(currentScene, destScene);
@@ -131,6 +136,7 @@ class GameController {
   }
 
   goToNextScene(element) {
+    this.infoText = "";
     const currentScene = element.closest(".scene");
     const destScene = currentScene.nextElementSibling;
     this.switchActiveScene(currentScene, destScene);
@@ -138,6 +144,7 @@ class GameController {
   }
 
   goToPrevScene(element) {
+    this.infoText = "";
     const currentScene = element.closest(".scene");
     const destScene = currentScene.previousElementSibling;
     this.switchActiveScene(currentScene, destScene);
@@ -145,6 +152,7 @@ class GameController {
   }
 
   startWithScene(scene) {
+    this.infoText = "";
     scene.classList.add("active");
   }
 
@@ -160,7 +168,6 @@ class GameController {
         this.hasReachedNorthDestination = true;
         break;
     }
-    this.warningText = "";
     this.updateHtml();
     currentScene.classList.remove("active");
     destScene.classList.add("active");

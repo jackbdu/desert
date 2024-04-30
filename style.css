@@ -4,8 +4,8 @@
   --color-background-dark: #000;
   --color-regular-light: #000;
   --color-regular-dark: #fff;
-  --color-warning-light: #f00;
-  --color-warning-dark: #f00;
+  --color-info-light: #000;
+  --color-info-dark: #fff;
   --color-button-light: #888;
   --color-button-dark: #888;
   --color-button-highlighted-light: #000;
@@ -28,7 +28,7 @@
 body {
   --color-background: var(--color-background-light);
   --color-regular: var(--color-regular-light);
-  --color-warning: var(--color-warning-light);
+  --color-info: var(--color-info-light);
   --color-button: var(--color-button-light);
   --color-button-highlighted: var(--color-button-highlighted-light);
   --color-toggle-on: var(--color-toggle-on-light);
@@ -37,7 +37,7 @@ body {
 body.dark {
   --color-background: var(--color-background-dark);
   --color-regular: var(--color-regular-dark);
-  --color-warning: var(--color-warning-dark);
+  --color-info: var(--color-info-dark);
   --color-button: var(--color-button-dark);
   --color-button-highlighted: var(--color-button-highlighted-dark);
   --color-toggle-on: var(--color-toggle-on-dark);
@@ -59,12 +59,12 @@ body {
     background var(--transition-delay-fast) var(--transition-timing-function-appear),
     color var(--transition-delay-fast) var(--transition-timing-function-appear);
 }
-div.ui ul.panel.info {
+div.ui ul.panel.stats {
   visibility: hidden;
   opacity: 0;
   transition: opacity var(--transition-duration-medium) var(--transition-timing-function-appear);
 }
-body.playing div.ui ul.panel.info {
+body.playing div.ui ul.panel.stats {
   visibility: visible;
   opacity: 1;
 }
@@ -81,8 +81,8 @@ div.ui ul.panel {
 div.ui li.item {
   list-style: none;
 }
-div.ui li.item#warning {
-  color: var(--color-warning);
+div.ui li.item#info {
+  color: var(--color-info);
 }
 div.ui li.item a,
 body.dark div.ui li.item a,
