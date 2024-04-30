@@ -54,14 +54,12 @@ class GameController {
     this.hasReachedWestDestination = localStorage.getItem("hasReachedWestDestination") === "true";
     this.hasReachedEastDestination = localStorage.getItem("hasReachedEastDestination") === "true";
     this.hasReachedNorthDestination = localStorage.getItem("hasReachedNorthDestination") === "true";
-    this.updateHtml();
   }
   restart() {
     this.init();
     this.updateLocalStorage();
     localStorage.setItem("hasPlayed", false);
     this.secretButtonElement.classList.add("hidden");
-    this.updateHtml();
   }
   updateLocalStorage() {
     localStorage.setItem("days", this.days);
@@ -74,13 +72,11 @@ class GameController {
     const wage = this.getRandomIntBetween(this.dailyWageMin, this.dailyWageMax);
     this.savings += wage;
     this.infoText = `${wage} ${this.currencyUnit} earned`;
-    this.updateHtml();
   }
   sleep() {
     this.days++;
     this.updateLocalStorage();
     localStorage.setItem("hasPlayed", true);
-    this.updateHtml();
   }
   travel(dest) {
     if (dest === "westJourney" || dest === "eastJourney") {
@@ -91,18 +87,70 @@ class GameController {
         return true;
       }
       this.infoText = this.infoTextInsufficientFund;
-      this.updateHtml();
       return false;
     }
     return true;
   }
-  updateHtml() {
-    this.daysElement.textContent = `${this.days.toString().padStart(this.digitNumber, "0")} ${this.dayUnit}`;
-    this.savingsElement.textContent = `${this.savings.toString().padStart(this.digitNumber, "0")} ${this.currencyUnit}`;
-    this.infoElement.textContent = `${this.infoText}`;
-    if (this.hasReachedWestDestination && this.hasReachedEastDestination) {
+
+  set days(n) {
+    this._days = n;
+    this.daysElement.textContent = `${n.toString().padStart(this.digitNumber, "0")} ${this.dayUnit}`;
+  }
+
+  get days() {
+    return this._days;
+  }
+
+  set savings(amount) {
+    this._savings = amount;
+    this.savingsElement.textContent = `${amount.toString().padStart(this.digitNumber, "0")} ${this.currencyUnit}`;
+  }
+
+  get savings() {
+    return this._savings;
+  }
+
+  set infoText(text) {
+    this._infoText = text;
+    this.infoElement.textContent = `${text}`;
+  }
+
+  get infoText() {
+    return this._infoText;
+  }
+
+  set hasReachedWestDestination(bool) {
+    this._hasReachedWestDestination = bool;
+    if (bool && this.hasReachedEastDestination) {
       this.secretButtonElement.classList.remove("hidden");
+    } else {
+      this.secretButtonElement.classList.add("hidden");
     }
+  }
+
+  get hasReachedWestDestination() {
+    return this._hasReachedWestDestination;
+  }
+
+  set hasReachedEastDestination(bool) {
+    this._hasReachedEastDestination = bool;
+    if (this.hasReachedWestDestination && bool) {
+      this.secretButtonElement.classList.remove("hidden");
+    } else {
+      this.secretButtonElement.classList.add("hidden");
+    }
+  }
+
+  get hasReachedEastDestination() {
+    return this._hasReachedEastDestination;
+  }
+
+  set hasReachedNorthDestination(bool) {
+    this._hasReachedNorthDestination = bool;
+  }
+
+  get hasReachedNorthDestination() {
+    return this._hasReachedNorthDestination;
   }
 
   goToSceneWithId(element, id, action) {
@@ -173,7 +221,6 @@ class GameController {
         this.hasReachedNorthDestination = true;
         break;
     }
-    this.updateHtml();
     currentScene.classList.remove("active");
     destScene.classList.add("active");
   }
