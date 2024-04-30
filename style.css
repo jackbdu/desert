@@ -17,7 +17,7 @@
   --font-family: Courier, monospace;
   --z-index-content-active: 0;
   --z-index-content-inactive: -1;
-  --z-index-clickable: 1;
+  --z-index-clickable: 2;
   --transition-duration-fast: 0.2s;
   --transition-duration-medium: 0.5s;
   --transition-duration-slow: 2s;
@@ -59,6 +59,52 @@ body {
     background var(--transition-delay-fast) var(--transition-timing-function-appear),
     color var(--transition-delay-fast) var(--transition-timing-function-appear);
 }
+div.ui {
+  font-size: 3rem;
+  line-height: 2em;
+}
+div.ui div.panel.credits {
+  visibility: hidden;
+  opacity: 0;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-background);
+  box-sizing: border-box;
+  padding: 6em 4em;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-index-clickable);
+}
+div.ui.showCredits div.panel.credits {
+  transition:
+    opacity var(--transition-duration-fast) var(--transition-timing-function-appear),
+    background-color var(--transition-duration-fast) var(--transition-timing-function-appear);
+  visibility: visible;
+  opacity: 1;
+}
+div.ui div.panel a {
+  color: var(--color-regular);
+  transition:
+    color var(--transition-duration-fast) var(--transition-timing-function-interact),
+    text-shadow var(--transition-duration-fast) var(--transition-timing-function-interact);
+}
+div.ui ul.panel {
+  position: fixed;
+  padding: 2em;
+  margin: 0;
+  z-index: var(--z-index-clickable);
+  list-style: none;
+}
+div.ui ul.panel.info {
+  color: var(--color-info);
+}
+div.ui ul.panel.toggles {
+  text-align: right;
+}
 div.ui ul.panel.stats {
   visibility: hidden;
   opacity: 0;
@@ -68,33 +114,19 @@ body.playing div.ui ul.panel.stats {
   visibility: visible;
   opacity: 1;
 }
-div.ui {
-  font-size: 3rem;
-  line-height: 2em;
-}
-div.ui ul.panel {
-  position: fixed;
-  padding: 2em;
-  margin: 0;
-  z-index: var(--z-index-clickable);
-}
-div.ui li.item {
-  list-style: none;
-}
-div.ui li.item#info {
-  color: var(--color-info);
-}
-div.ui li.item a,
-body.dark div.ui li.item a,
-div.ui li.item span.dark,
-body.dark div.ui li.item span.light {
+div.ui.showCredits ul.panel.toggles a.credits,
+div.ui ul.panel.toggles a,
+body.dark div.ui ul.panel.toggles a,
+div.ui ul.panel.toggles span.dark,
+body.dark div.ui ul.panel.toggles span.light {
   color: var(--color-toggle-off);
   transition:
     color var(--transition-duration-fast) var(--transition-timing-function-interact),
     text-shadow var(--transition-duration-fast) var(--transition-timing-function-interact);
 }
-div.ui li.item span.light,
-body.dark div.ui li.item span.dark {
+div.ui.showCredits ul.panel.toggles a.credits,
+div.ui ul.panel.toggles span.light,
+body.dark div.ui ul.panel.toggles span.dark {
   color: var(--color-toggle-on);
   transition:
     color var(--transition-duration-fast) var(--transition-timing-function-interact),
@@ -163,10 +195,11 @@ div.buttons button.option.secret {
   transition-duration: var(--transition-duration-slow);
 }
 div.buttons button.option:hover,
-div.ui li.item a:hover,
-body.dark div.ui li.item a:hover,
-div.ui li.item a:hover span.light,
-div.ui li.item a:hover span.dark {
+div.ui ul.panel.toggles a:hover,
+div.ui div.panel a:hover,
+body.dark div.ui ul.panel.toggles a:hover,
+div.ui ul.panel.toggles a:hover span.light,
+div.ui ul.panel.toggles a:hover span.dark {
   cursor: pointer;
   color: var(--color-button-highlighted);
   text-shadow: 0 0 1rem var(--color-button-highlighted);

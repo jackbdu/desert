@@ -22,6 +22,7 @@ class GameController {
     this.travelExpensesMin = options?.travelExpensesMin ?? 800;
     this.travelExpensesMax = options?.travelExpensesMax ?? 1000;
     this.infoTextInsufficientFund = options?.infoTextInsufficientFund ?? `Minimum savings for traveling: ${this.travelExpensesMax} ${this.currencyUnit}`;
+    this.uiElement = document.querySelector(".ui");
     this.daysElement = document.querySelector("#days");
     this.savingsElement = document.querySelector("#savings");
     this.infoElement = document.querySelector("#info");
@@ -235,6 +236,9 @@ class GameController {
     this.darkModeEnabled = !this.darkModeEnabled;
     this.updateDarkMode(this.darkModeEnabled);
     localStorage.setItem("isDarkMode", this.darkModeEnabled);
+  }
+  toggleCredits() {
+    this.uiElement.classList.toggle("showCredits");
   }
   getRandomIntBetween(min, max) {
     const offsetMax = max - min;

@@ -5,20 +5,6 @@
     <meta charset="utf-8" />
   </head>
   <body>
-    <div class="ui">
-      <ul class="panel stats top left">
-        <li class="item" id="savings"></li>
-        <li class="item" id="days"></li>
-      </ul>
-      <ul class="panel bottom center">
-        <li class="item" id="info"></li>
-      </ul>
-      <ul class="panel top right">
-        <li class="item">
-          <a onclick="gc.toggleDarkMode();"><span class="light">Light</span>/<span class="dark">Dark</span></a>
-        </li>
-      </ul>
-    </div>
     <div class="scenes">
       <div class="scene" id="welcome">
         <div class="content">
@@ -151,6 +137,31 @@
           <button class="option bottom center" onclick="gc.goToSceneWithId(this, 'postTravel');">↷<br />Go Home</button>
         </div>
       </div>
+    </div>
+    <div class="ui">
+      <ul class="panel stats top left">
+        <li class="item" id="savings"></li>
+        <li class="item" id="days"></li>
+      </ul>
+      <ul class="panel info bottom center">
+        <li class="item" id="info"></li>
+      </ul>
+      <div class="panel credits">
+        <p>
+          This project is a collaboration between <strong><a href="https://jackbdu.com/about/">Jack B. Du</a></strong> and <strong>Zexin Zhang</strong>.
+        </p>
+        <p>
+          The story is loosely based on <strong><i>The Three Travelers</i></strong> from the book <strong><i>A Necklace of Raindrops and Other Stories</i></strong> by Joan Aiken.
+        </p>
+      </div>
+      <ul class="panel toggles top right">
+        <li class="item">
+          <a onclick="gc.toggleDarkMode();"><span class="light">Light</span>/<span class="dark">Dark</span></a>
+        </li>
+        <li class="item">
+          <a class="credits" onclick="gc.toggleCredits();">credits</a>
+        </li>
+      </ul>
     </div>
     <script src="script.js"></script>
   </body>
