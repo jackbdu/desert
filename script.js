@@ -6,8 +6,8 @@ const config = {
   dailyWageMax: 200,
   currencyUnit: "dollars",
   dayUnit: "days",
-  travelExpenses: 900,
-  infoTextInsufficientFund: "Insufficient funds :(",
+  travelExpensesMax: 1000,
+  travelExpensesmin: 800,
 };
 
 class GameController {
@@ -19,8 +19,9 @@ class GameController {
     this.digitNumber = options?.digitNumber ?? 6;
     this.dailyWageMin = options?.dailyWageMin ?? 100;
     this.dailyWageMax = options?.dailyWageMax ?? 200;
-    this.travelExpenses = options?.travelExpenses ?? 1000;
-    this.infoTextInsufficientFund = options?.infoTextInsufficientFund ?? "Insufficient funds";
+    this.travelExpensesMin = options?.travelExpensesMin ?? 800;
+    this.travelExpensesMax = options?.travelExpensesMax ?? 1000;
+    this.infoTextInsufficientFund = options?.infoTextInsufficientFund ?? `Minimum savings for traveling: ${this.travelExpensesMax} ${this.currencyUnit}`;
     this.daysElement = document.querySelector("#days");
     this.savingsElement = document.querySelector("#savings");
     this.infoElement = document.querySelector("#info");
@@ -70,9 +71,7 @@ class GameController {
     localStorage.setItem("hasReachedNorthDestination", this.hasReachedNorthDestination);
   }
   work() {
-    const bonusMax = this.dailyWageMax - this.dailyWageMin;
-    const bonus = Math.floor(Math.random() * bonusMax);
-    const wage = this.dailyWageMin + bonus;
+    const wage = this.getRandomIntBetween(this.dailyWageMin, this.dailyWageMax);
     this.savings += wage;
     this.infoText = `${wage} ${this.currencyUnit} earned`;
     this.updateHtml();
@@ -85,9 +84,10 @@ class GameController {
   }
   travel(dest) {
     if (dest === "westJourney" || dest === "eastJourney") {
-      if (this.savings - this.travelExpenses >= 0) {
-        this.savings -= this.travelExpenses;
-        this.infoText = `${this.travelExpenses} ${this.currencyUnit} spent`;
+      if (this.savings >= this.travelExpensesMax) {
+        const travelExpenses = this.getRandomIntBetween(this.travelExpensesMin, this.travelExpensesMax);
+        this.savings -= travelExpenses;
+        this.infoText = `${travelExpenses} ${this.currencyUnit} spent`;
         return true;
       }
       this.infoText = this.infoTextInsufficientFund;
@@ -188,6 +188,12 @@ class GameController {
     this.darkModeEnabled = !this.darkModeEnabled;
     this.updateDarkMode(this.darkModeEnabled);
     localStorage.setItem("isDarkMode", this.darkModeEnabled);
+  }
+  getRandomIntBetween(min, max) {
+    const offsetMax = max - min;
+    const randomOffset = Math.random() * offsetMax;
+    const randomValue = Math.floor(min + randomOffset);
+    return randomValue;
   }
 }
 
