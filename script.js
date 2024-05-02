@@ -240,6 +240,10 @@ class GameController {
   toggleCredits() {
     this.uiElement.classList.toggle("showCredits");
   }
+  toggleSound(element) {
+    element.classList.toggle("on");
+    element.classList.toggle("off");
+  }
   getRandomIntBetween(min, max) {
     const offsetMax = max - min;
     const randomOffset = Math.random() * offsetMax;

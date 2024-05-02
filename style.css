@@ -74,7 +74,7 @@ div.ui div.panel.credits {
   right: 0;
   background-color: var(--color-background);
   box-sizing: border-box;
-  padding: 6em 4em;
+  padding: 8em 4em;
   width: 100%;
   height: 100%;
   z-index: var(--z-index-clickable);
@@ -85,6 +85,13 @@ div.ui.showCredits div.panel.credits {
     background-color var(--transition-duration-fast) var(--transition-timing-function-appear);
   visibility: visible;
   opacity: 1;
+}
+div.ui ul.panel a.sound span {
+  display: none;
+}
+div.ui ul.panel a.sound.on span.on,
+div.ui ul.panel a.sound.off span.off {
+  display: inline-block;
 }
 div.ui div.panel a {
   color: var(--color-regular);
@@ -124,6 +131,7 @@ body.dark div.ui ul.panel.toggles span.light {
     color var(--transition-duration-fast) var(--transition-timing-function-interact),
     text-shadow var(--transition-duration-fast) var(--transition-timing-function-interact);
 }
+div.ui ul.panel a.sound.on span.on,
 div.ui.showCredits ul.panel.toggles a.credits,
 div.ui ul.panel.toggles span.light,
 body.dark div.ui ul.panel.toggles span.dark {
