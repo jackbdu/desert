@@ -8,6 +8,7 @@ const config = {
   dayUnit: "days",
   travelExpensesMax: 1000,
   travelExpensesmin: 800,
+  audioUrls: ["assets/oasis.mp3"],
 };
 
 class GameController {
@@ -22,6 +23,7 @@ class GameController {
     this.travelExpensesMin = options?.travelExpensesMin ?? 800;
     this.travelExpensesMax = options?.travelExpensesMax ?? 1000;
     this.infoTextInsufficientFund = options?.infoTextInsufficientFund ?? `Minimum savings for traveling: ${this.travelExpensesMax} ${this.currencyUnit}`;
+    this.audioUrls = options?.audioUrls ?? [];
     this.uiElement = document.querySelector(".ui");
     this.daysElement = document.querySelector("#days");
     this.savingsElement = document.querySelector("#savings");
@@ -29,14 +31,22 @@ class GameController {
     this.secretButtonElement = document.querySelector("button.secret");
     this.infoText = "";
 
+    this.audios = [];
+    for (const url of this.audioUrls) {
+      const audio = new Audio(url);
+      audio.setAttribute("loop", "");
+      this.audios.push(audio);
+    }
+    this.audioEnabled = localStorage.getItem("audioEnabled") !== "false";
+    this.updateAudioStatus(this.audioEnabled);
+
     const systemDarkEnabled = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    this.darkModeEnabled = systemDarkEnabled && localStorage.getItem("isDarkMode") !== "false";
+    this.darkModeEnabled = systemDarkEnabled && localStorage.getItem("darkModeEnabled") !== "false";
+    this.updateDarkMode(this.darkModeEnabled);
 
     this.hasPlayed = localStorage.getItem("hasPlayed") === "true";
     const startingScene = this.hasPlayed ? document.querySelector(".scene#welcomeBack") : document.querySelector(".scene#welcome");
     this.startWithScene(startingScene);
-
-    this.updateDarkMode(this.darkModeEnabled);
   }
   init() {
     this.days = this.initialDays;
@@ -61,6 +71,7 @@ class GameController {
     this.updateLocalStorage();
     localStorage.setItem("hasPlayed", false);
     this.secretButtonElement.classList.add("hidden");
+    this.audios[0].play();
   }
   updateLocalStorage() {
     localStorage.setItem("days", this.days);
@@ -235,14 +246,30 @@ class GameController {
   toggleDarkMode() {
     this.darkModeEnabled = !this.darkModeEnabled;
     this.updateDarkMode(this.darkModeEnabled);
-    localStorage.setItem("isDarkMode", this.darkModeEnabled);
+    localStorage.setItem("darkModeEnabled", this.darkModeEnabled);
   }
   toggleCredits() {
     this.uiElement.classList.toggle("showCredits");
   }
   toggleSound(element) {
-    element.classList.toggle("on");
-    element.classList.toggle("off");
+    this.audioEnabled = !this.audioEnabled;
+    this.updateAudioStatus(this.audioEnabled);
+    localStorage.setItem("audioEnabled", this.audioEnabled);
+  }
+  updateAudioStatus(audioEnabled) {
+    if (audioEnabled) {
+      for (const audio of this.audios) {
+        audio.volume = 1;
+      }
+      document.body.classList.add("soundOn");
+      document.body.classList.remove("soundOff");
+    } else {
+      for (const audio of this.audios) {
+        audio.volume = 0;
+      }
+      document.body.classList.remove("soundOn");
+      document.body.classList.add("soundOff");
+    }
   }
   getRandomIntBetween(min, max) {
     const offsetMax = max - min;

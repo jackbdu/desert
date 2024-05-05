@@ -138,8 +138,8 @@ div.ui.showCredits div.panel.credits {
 div.ui ul.panel a.sound span {
   display: none;
 }
-div.ui ul.panel a.sound.on span.on,
-div.ui ul.panel a.sound.off span.off {
+body.soundOn div.ui ul.panel a.sound span.on,
+body.soundOff div.ui ul.panel a.sound span.off {
   display: inline-block;
 }
 div.ui div.panel a {
@@ -180,7 +180,7 @@ body.dark div.ui ul.panel.toggles span.light {
     color var(--transition-duration-fast) var(--transition-timing-function-interact),
     text-shadow var(--transition-duration-fast) var(--transition-timing-function-interact);
 }
-div.ui ul.panel a.sound.on span.on,
+body.soundOn div.ui ul.panel span.on,
 div.ui.showCredits ul.panel.toggles a.credits,
 div.ui ul.panel.toggles span.light,
 body.dark div.ui ul.panel.toggles span.dark {
