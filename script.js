@@ -8,7 +8,8 @@ const config = {
   dayUnit: "days",
   travelExpensesMax: 1000,
   travelExpensesmin: 800,
-  soundUrls: { northDest: "assets/oasis.mp3", westDest: "assets/sea.mp3", eastDest: "assets/busy-mall.mp3", aboard: "assets/aboard-train.mp3", desert: "assets/desert.mp3" },
+  soundUrls: { northDest: "assets/oasis.mp3", westDest: "assets/sea.mp3", eastDest: "assets/busy-mall.mp3", aboard: "assets/aboard-train.mp3", desert: "assets/desert.mp3", startingSound: "assets/flipping-pages.mp3" },
+  soundEffectUrls: { starting: "assets/flipping-pages.mp3", switching: "assets/flipping-page.mp3" },
 };
 
 class GameController {
@@ -23,7 +24,8 @@ class GameController {
     this.travelExpensesMin = options?.travelExpensesMin ?? 800;
     this.travelExpensesMax = options?.travelExpensesMax ?? 1000;
     this.infoTextInsufficientFund = options?.infoTextInsufficientFund ?? `Minimum savings for traveling: ${this.travelExpensesMax} ${this.currencyUnit}`;
-    this.soundUrls = options?.soundUrls ?? [];
+    this.soundUrls = options?.soundUrls ?? {};
+    this.soundEffectUrls = options?.soundEffectUrls ?? {};
     this.uiElement = document.querySelector(".ui");
     this.daysElement = document.querySelector("#days");
     this.savingsElement = document.querySelector("#savings");
@@ -37,6 +39,13 @@ class GameController {
       const sound = new Audio(url);
       sound.setAttribute("loop", "");
       this.sounds[name] = sound;
+    }
+
+    this.soundEffects = {};
+    for (const name of Object.keys(this.soundEffectUrls)) {
+      const url = this.soundEffectUrls[name];
+      const sound = new Audio(url);
+      this.soundEffects[name] = sound;
     }
     this.soundEnabled = localStorage.getItem("soundEnabled") !== "false";
     this.updateSoundStatus(this.soundEnabled);
@@ -66,12 +75,14 @@ class GameController {
     this.hasReachedWestDestination = localStorage.getItem("hasReachedWestDestination") === "true";
     this.hasReachedEastDestination = localStorage.getItem("hasReachedEastDestination") === "true";
     this.hasReachedNorthDestination = localStorage.getItem("hasReachedNorthDestination") === "true";
+    this.playSoundEffect("starting");
   }
   restart() {
     this.init();
     this.updateLocalStorage();
     localStorage.setItem("hasPlayed", false);
     this.secretButtonElement.classList.add("hidden");
+    this.playSoundEffect("starting");
   }
   updateLocalStorage() {
     localStorage.setItem("days", this.days);
@@ -205,6 +216,7 @@ class GameController {
     const currentScene = element.closest(".scene");
     const destScene = currentScene.nextElementSibling;
     this.switchActiveScene(currentScene, destScene);
+    this.playSoundEffect("switching");
     return true;
   }
 
@@ -295,16 +307,26 @@ class GameController {
       }
     }
   }
+  playSoundEffect(name) {
+    this.soundEffects[name].currentTime = 0;
+    this.soundEffects[name].play();
+  }
   updateSoundStatus(soundEnabled) {
     if (soundEnabled) {
       for (const name of Object.keys(this.sounds)) {
         this.sounds[name].volume = 1;
+      }
+      for (const name of Object.keys(this.soundEffects)) {
+        this.soundEffects[name].volume = 1;
       }
       document.body.classList.add("soundOn");
       document.body.classList.remove("soundOff");
     } else {
       for (const name of Object.keys(this.sounds)) {
         this.sounds[name].volume = 0;
+      }
+      for (const name of Object.keys(this.soundEffects)) {
+        this.soundEffects[name].volume = 0;
       }
       document.body.classList.remove("soundOn");
       document.body.classList.add("soundOff");
