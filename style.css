@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "bohemian-typewriter";
+  src: url("assets/bohemian-typewriter.ttf"); /* IE9 Compat Modes */
+}
+
 /* Modern CSS reset by Josh Comeau: https://www.joshwcomeau.com/css/custom-css-reset/ * /
 /* 1. Use a more-intuitive box-sizing model.  */
 *,
@@ -65,7 +70,7 @@ h6 {
   --color-toggle-on-dark: #fff;
   --color-toggle-off-light: #bbb;
   --color-toggle-off-dark: #555;
-  --font-family: Courier, monospace;
+  --font-family: "bohemian-typewriter", Courier, monospace;
   --z-index-scenario-active: 0;
   --z-index-scenario-inactive: -1;
   --z-index-clickable: 2;
@@ -205,7 +210,7 @@ div.scene {
   display: flex;
   flex-direction: column;
   text-align: center;
-  font-size: 5rem;
+  font-size: 4rem;
   justify-content: center;
   padding: 4rem;
 }
