@@ -66,8 +66,8 @@ h6 {
   --color-toggle-off-light: #bbb;
   --color-toggle-off-dark: #555;
   --font-family: Courier, monospace;
-  --z-index-content-active: 0;
-  --z-index-content-inactive: -1;
+  --z-index-scenario-active: 0;
+  --z-index-scenario-inactive: -1;
   --z-index-clickable: 2;
   --transition-duration-fast: 0.2s;
   --transition-duration-medium: 0.5s;
@@ -196,7 +196,7 @@ div.scene {
 }
 div.scene {
   visibility: hidden;
-  z-index: var(--z-index-content-inactive);
+  z-index: var(--z-index-scenario-inactive);
   position: absolute;
   top: 0;
   bottom: 0;
@@ -211,13 +211,16 @@ div.scene {
 }
 div.scene.active {
   visibility: visible;
-  z-index: var(--z-index-content-active);
+  z-index: var(--z-index-scenario-active);
 }
-div.scene div.content,
+div.scene div.scenario.hidden {
+  display: none;
+}
+div.scene div.scenario,
 div.scene div.buttons {
   opacity: 0;
 }
-div.scene div.content img {
+div.scene div.scenario img {
   width: 80%;
   position: relative;
   top: 50%;
@@ -225,7 +228,7 @@ div.scene div.content img {
   transform: translate(-50%, -50%);
   mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 30%, transparent 50%);
 }
-div.scene.active div.content,
+div.scene.active div.scenario,
 div.scene.active div.buttons {
   opacity: 1;
   transition: opacity var(--transition-duration-medium) var(--transition-timing-function-appear);

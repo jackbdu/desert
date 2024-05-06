@@ -251,8 +251,20 @@ class GameController {
         this.switchSoundTo("northDest");
         break;
     }
+    this.showRandomScenario(destScene);
     currentScene.classList.remove("active");
     destScene.classList.add("active");
+  }
+  showRandomScenario(scene) {
+    const scenarios = scene.querySelectorAll("div.scenario");
+    const randomIndex = Math.floor(Math.random() * scenarios.length);
+    scenarios.forEach((scenario, index) => {
+      if (index === randomIndex) {
+        scenarios[index].classList.remove("hidden");
+      } else {
+        scenarios[index].classList.add("hidden");
+      }
+    });
   }
   updateDarkMode(darkModeEnabled) {
     if (darkModeEnabled) {
