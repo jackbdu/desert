@@ -217,6 +217,14 @@ div.scene div.content,
 div.scene div.buttons {
   opacity: 0;
 }
+div.scene div.content img {
+  width: 80%;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 30%, transparent 50%);
+}
 div.scene.active div.content,
 div.scene.active div.buttons {
   opacity: 1;
