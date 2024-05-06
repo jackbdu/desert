@@ -8,7 +8,7 @@ const config = {
   dayUnit: "days",
   travelExpensesMax: 1000,
   travelExpensesmin: 800,
-  audioUrls: ["assets/oasis.mp3"],
+  soundUrls: { northDest: "assets/oasis.mp3", westDest: "assets/sea.mp3", eastDest: "assets/busy-mall.mp3", aboard: "assets/aboard-train.mp3", desert: "assets/desert.mp3" },
 };
 
 class GameController {
@@ -23,7 +23,7 @@ class GameController {
     this.travelExpensesMin = options?.travelExpensesMin ?? 800;
     this.travelExpensesMax = options?.travelExpensesMax ?? 1000;
     this.infoTextInsufficientFund = options?.infoTextInsufficientFund ?? `Minimum savings for traveling: ${this.travelExpensesMax} ${this.currencyUnit}`;
-    this.audioUrls = options?.audioUrls ?? [];
+    this.soundUrls = options?.soundUrls ?? [];
     this.uiElement = document.querySelector(".ui");
     this.daysElement = document.querySelector("#days");
     this.savingsElement = document.querySelector("#savings");
@@ -31,14 +31,15 @@ class GameController {
     this.secretButtonElement = document.querySelector("button.secret");
     this.infoText = "";
 
-    this.audios = [];
-    for (const url of this.audioUrls) {
-      const audio = new Audio(url);
-      audio.setAttribute("loop", "");
-      this.audios.push(audio);
+    this.sounds = {};
+    for (const name of Object.keys(this.soundUrls)) {
+      const url = this.soundUrls[name];
+      const sound = new Audio(url);
+      sound.setAttribute("loop", "");
+      this.sounds[name] = sound;
     }
-    this.audioEnabled = localStorage.getItem("audioEnabled") !== "false";
-    this.updateAudioStatus(this.audioEnabled);
+    this.soundEnabled = localStorage.getItem("soundEnabled") !== "false";
+    this.updateSoundStatus(this.soundEnabled);
 
     const systemDarkEnabled = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
     this.darkModeEnabled = systemDarkEnabled && localStorage.getItem("darkModeEnabled") !== "false";
@@ -71,7 +72,6 @@ class GameController {
     this.updateLocalStorage();
     localStorage.setItem("hasPlayed", false);
     this.secretButtonElement.classList.add("hidden");
-    this.audios[0].play();
   }
   updateLocalStorage() {
     localStorage.setItem("days", this.days);
@@ -223,14 +223,29 @@ class GameController {
 
   switchActiveScene(currentScene, destScene) {
     switch (destScene.id) {
+      case "home":
+        this.switchSoundTo("desert");
+        break;
+      case "westJourney":
+        this.switchSoundTo("aboard");
+        break;
+      case "eastJourney":
+        this.switchSoundTo("aboard");
+        break;
+      case "postTravel":
+        this.switchSoundTo("desert");
+        break;
       case "westDestination":
         this.hasReachedWestDestination = true;
+        this.switchSoundTo("westDest");
         break;
       case "eastDestination":
         this.hasReachedEastDestination = true;
+        this.switchSoundTo("eastDest");
         break;
       case "northDestination":
         this.hasReachedNorthDestination = true;
+        this.switchSoundTo("northDest");
         break;
     }
     currentScene.classList.remove("active");
@@ -252,20 +267,29 @@ class GameController {
     this.uiElement.classList.toggle("showCredits");
   }
   toggleSound(element) {
-    this.audioEnabled = !this.audioEnabled;
-    this.updateAudioStatus(this.audioEnabled);
-    localStorage.setItem("audioEnabled", this.audioEnabled);
+    this.soundEnabled = !this.soundEnabled;
+    this.updateSoundStatus(this.soundEnabled);
+    localStorage.setItem("soundEnabled", this.soundEnabled);
   }
-  updateAudioStatus(audioEnabled) {
-    if (audioEnabled) {
-      for (const audio of this.audios) {
-        audio.volume = 1;
+  switchSoundTo(activeName) {
+    for (const name of Object.keys(this.sounds)) {
+      if (name === activeName) {
+        this.sounds[name].play();
+      } else {
+        this.sounds[name].pause();
+      }
+    }
+  }
+  updateSoundStatus(soundEnabled) {
+    if (soundEnabled) {
+      for (const name of Object.keys(this.sounds)) {
+        this.sounds[name].volume = 1;
       }
       document.body.classList.add("soundOn");
       document.body.classList.remove("soundOff");
     } else {
-      for (const audio of this.audios) {
-        audio.volume = 0;
+      for (const name of Object.keys(this.sounds)) {
+        this.sounds[name].volume = 0;
       }
       document.body.classList.remove("soundOn");
       document.body.classList.add("soundOff");
