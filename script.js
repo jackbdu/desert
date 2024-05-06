@@ -223,6 +223,9 @@ class GameController {
 
   switchActiveScene(currentScene, destScene) {
     switch (destScene.id) {
+      case "introduction":
+        this.switchSoundTo("desert");
+        break;
       case "home":
         this.switchSoundTo("desert");
         break;
