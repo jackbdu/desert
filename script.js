@@ -4,7 +4,7 @@ const config = {
   digitNumber: 6,
   dailyWageMin: 100,
   dailyWageMax: 200,
-  currencyUnit: "dollars",
+  currencyUnit: "Dunaris",
   dayUnit: "days",
   travelExpensesMax: 1000,
   travelExpensesmin: 800,
