@@ -8,7 +8,7 @@ const config = {
   dayUnit: "days",
   travelExpensesMax: 1000,
   travelExpensesmin: 800,
-  soundUrls: { northDest: "assets/oasis.mp3", westDest: "assets/sea.mp3", eastDest: "assets/busy-mall.mp3", aboard: "assets/aboard-train.mp3", desert: "assets/desert.mp3", startingSound: "assets/flipping-pages.mp3" },
+  soundUrls: { northDest: "assets/oasis.mp3", westDest: "assets/sea.mp3", eastDest: "assets/busy-mall.mp3", aboard: "assets/aboard-train.mp3", desert: "assets/desert.mp3", night: "assets/desert-night.mp3" },
   soundEffectUrls: { starting: "assets/flipping-pages.mp3", switching: "assets/flipping-page.mp3" },
 };
 
@@ -248,7 +248,10 @@ class GameController {
         this.switchSoundTo("aboard");
         break;
       case "postTravel":
-        this.switchSoundTo("desert");
+        this.switchSoundTo("night");
+        break;
+      case "postWork":
+        this.switchSoundTo("night");
         break;
       case "westDestination":
         this.hasReachedWestDestination = true;
