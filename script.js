@@ -9,7 +9,7 @@ const config = {
   travelExpensesMax: 1000,
   travelExpensesmin: 800,
   soundUrls: { northDest: "assets/oasis.mp3", westDest: "assets/sea.mp3", eastDest: "assets/busy-mall.mp3", aboard: "assets/aboard-train.mp3", desert: "assets/desert.mp3", night: "assets/desert-night.mp3" },
-  soundEffectUrls: { starting: "assets/flipping-pages.mp3", switching: "assets/flipping-page.mp3" },
+  soundEffectUrls: { starting: "assets/flipping-pages.mp3", switching: "assets/flipping-page.mp3", work: "assets/dropping-coin.mp3" },
 };
 
 class GameController {
@@ -95,6 +95,7 @@ class GameController {
     const wage = this.getRandomIntBetween(this.dailyWageMin, this.dailyWageMax);
     this.savings += wage;
     this.infoText = `${wage} ${this.currencyUnit} earned`;
+    this.playSoundEffect("work");
   }
   sleep() {
     this.days++;
